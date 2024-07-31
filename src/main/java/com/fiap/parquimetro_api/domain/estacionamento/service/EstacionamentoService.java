@@ -67,9 +67,7 @@ public class EstacionamentoService {
         LocalDateTime data = estacionamento.getFim();
         String forma;
 
-        Condutor condutor = this.condutorRepository
-                .findById(idCondutor)
-                .orElse(null);
+        Condutor condutor = (Condutor) condutorRepository;
         if(condutor.getTipoPagamento() == TipoPagamento.CREDITO)
             forma = "Cartão de crédito";
         else if (condutor.getTipoPagamento() == TipoPagamento.DEBITO) {
