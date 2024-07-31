@@ -68,7 +68,6 @@ public class VeiculoService {
     }
 
     public ResponseEntity<VeiculoDTO> consultar (String placa){
-
         if (ObjectUtils.isEmpty(placa)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -77,6 +76,24 @@ public class VeiculoService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(new VeiculoDTO(veiculoEncontrado));
+        return ResponseEntity.status(HttpStatus.OK).body(VeiculoMapper.toDTO(veiculoEncontrado));
+    }
+
+    public ResponseEntity<List<VeiculoDTO>> listar () {
+        return ResponseEntity.status(HttpStatus.OK).body(VeiculoMapper.toListDTO(veiculoRepository.findAll()));
+    }
+
+    public ResponseEntity<VeiculoDTO> atualizar (VeiculoDTO veiculoDTO, String cpf) {
+        // receber o cpf do condutor
+        // buscar o veiculo desse condutor referente a placa do request
+        Condutor condutorEncontrado = condutorRepository.findByCpf(cpf);
+
+//        Veiculo veiculo = condutorEncontrado.getListVeiculos().stream().filter(
+//                veiculoEncontrado -> veiculoEncontrado.getPlaca().equals(veiculoDTO.getPlaca())).findFirst().orElse(null);
+
+        //procurar nesta lista o veiculo com a placa do request
+
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
