@@ -31,6 +31,8 @@ public class Estacionamento {
     @JoinColumn(name = "id_condutor")
     private Condutor condutor;
     private PeriodoEstacionamento periodoEstacionamento;
+    private LocalDateTime dtEntrada;
+    private LocalDateTime dtSaida;
 
     public Condutor getCondutor() {
         return condutor;

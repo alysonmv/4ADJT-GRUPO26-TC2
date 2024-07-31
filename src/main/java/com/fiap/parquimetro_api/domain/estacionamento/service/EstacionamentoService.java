@@ -4,8 +4,10 @@ package com.fiap.parquimetro_api.domain.estacionamento.service;
 import com.fiap.parquimetro_api.domain.condutor.entity.Condutor;
 import com.fiap.parquimetro_api.domain.condutor.entity.TipoPagamento;
 import com.fiap.parquimetro_api.domain.condutor.repository.CondutorRepository;
+import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoSaidaDTO;
 import com.fiap.parquimetro_api.domain.estacionamento.entity.Estacionamento;
 import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoDTO;
+import com.fiap.parquimetro_api.domain.estacionamento.entity.PeriodoEstacionamento;
 import com.fiap.parquimetro_api.domain.estacionamento.mapper.EstacionamentoMapper;
 import com.fiap.parquimetro_api.domain.estacionamento.repository.EstacionamentoRepository;
 import com.fiap.parquimetro_api.domain.recibo.dto.ReciboDTO;
@@ -33,6 +35,31 @@ public class EstacionamentoService {
     public List<EstacionamentoDTO> findAll() {
         List<Estacionamento> estacionamentos = estacionamentoRepository.findAll();
         return EstacionamentoMapper.toListDTO(estacionamentos);
+    }
+    public ResponseEntity<?> encerrarEstacionamento(EstacionamentoSaidaDTO estacionamentoSaidaDTO) {
+
+        Optional<Estacionamento> estacionamento = this.estacionamentoRepository.findById(Long.valueOf(estacionamentoSaidaDTO.getId()));
+
+        if(estacionamento == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Não foi encontrado estacionamento");
+
+        // caso seja periodo fixo, forçar a data informada na entrada
+        if(estacionamento.getPeriodoEstacionamento() == PeriodoEstacionamento.PERIODO_FIXO)
+            estacionamentoSaidaDTO.setSaida(estacionamento.getDtSaida());
+        else
+            estacionamentoSaidaDTO.setSaida(LocalDateTime.now());
+
+        estacionamento.setFormaPagamento(estacionamentoSaidaDTO.getFormaPagamento());
+        estacionamento.setDtSaida(estacionamentoSaidaDTO.getSaida());
+        calcularRecibo(estacionamento);
+
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(estacionamentoRepository.save(estacionamento));
+        }catch(Exception ex){
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+
     }
 
     public Optional<EstacionamentoDTO> findById(Long idEstacionamento) {
