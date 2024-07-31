@@ -17,6 +17,8 @@ public class ReciboDTO {
     private Long idRecibo;
     private BigDecimal valorTotal;
     private EstacionamentoDTO estacionamentoDTO;
+    private String mensagem;
+
 
     public ReciboDTO(Recibo recibo) {
         this.idRecibo = (long) recibo.getIdRecibo();

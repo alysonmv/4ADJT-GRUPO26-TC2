@@ -46,4 +46,9 @@ public class Condutor {
     @OneToMany(mappedBy="condutor")
     private List<Veiculo> listVeiculos;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="tipo_pagamento")
+    @NotBlank(message = "Forma de pagamento é obrigatório")
+    private TipoPagamento tipoPagamento;
+
 }

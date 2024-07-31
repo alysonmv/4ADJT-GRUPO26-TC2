@@ -26,4 +26,5 @@ public class Recibo {
     @ManyToOne
     @JoinColumn(name="id_estacionamento")
     private Estacionamento estacionamento;
+    private String mensagem;
 }
