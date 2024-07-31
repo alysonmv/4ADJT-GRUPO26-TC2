@@ -1,7 +1,10 @@
 package com.fiap.parquimetro_api.domain.estacionamento.controller;
 
 import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoDTO;
+import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoEntradaDTO;
+import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoSaidaDTO;
 import com.fiap.parquimetro_api.domain.estacionamento.service.EstacionamentoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,17 @@ import java.util.Optional;
 public class EstacionamentoController {
     @Autowired
     private EstacionamentoService estacionamentoService;
+
+    @PostMapping("/{id}/inicio/")
+    public ResponseEntity<?> iniciarEstacionamento(@Valid @RequestBody EstacionamentoEntradaDTO estacionamentoEntradaDTO){
+        return  estacionamentoService.iniciarEstacionamento(estacionamentoEntradaDTO);
+
+    }
+    @PutMapping("/{id}/encerrar/")
+    public ResponseEntity<?> encerrarEstacionamento(@Valid @RequestBody EstacionamentoSaidaDTO estacionamentoSaidaDTO){
+
+        return  estacionamentoService.encerrarEstacionamento(estacionamentoSaidaDTO);
+    }
 
     @GetMapping
     public ResponseEntity<List<EstacionamentoDTO>> getAll() {
