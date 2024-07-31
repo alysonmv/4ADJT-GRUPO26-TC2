@@ -5,6 +5,7 @@ import com.fiap.parquimetro_api.domain.condutor.entity.TipoPagamento;
 import com.fiap.parquimetro_api.domain.endereco.dto.EnderecoUpdateDTO;
 import com.fiap.parquimetro_api.domain.condutor.entity.Condutor;
 import com.fiap.parquimetro_api.domain.endereco.mapper.EnderecoMapper;
+import com.fiap.parquimetro_api.domain.formadepagamento.model.FormaDePagamento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

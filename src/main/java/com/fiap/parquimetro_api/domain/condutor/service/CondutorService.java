@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CondutorService {
@@ -40,38 +41,40 @@ public class CondutorService {
 
         Condutor condutor = CondutorMapper.toEntity(condutorDTO);
         condutor.setEndereco(EnderecoMapper.toEntity(enderecoService.cadastrar(condutorDTO.getEnderecoDTO())));
-        condutor = condutorRepository.save(condutor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(CondutorMapper.toDto(condutor));
+        condutor.setFormaDePagamento(condutorDTO.getTipoPagamento());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CondutorDTO(condutorRepository.save(condutor)));
     }
 
     public ResponseEntity<CondutorDTO> consultar (String cpf){
         if (ObjectUtils.isEmpty(cpf)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        Condutor condutorEncontrado = condutorRepository.findByCpf(cpf);
+        Optional<Condutor> condutorEncontrado = condutorRepository.findByCpf(cpf);
         if (ObjectUtils.isEmpty(condutorEncontrado)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new CondutorDTO(condutorEncontrado));
+        return ResponseEntity.status(HttpStatus.OK).body(new CondutorDTO(condutorEncontrado.get()));
     }
 
     public ResponseEntity<List<CondutorDTO>> listar (){
-        return ResponseEntity.status(HttpStatus.FOUND).body(CondutorMapper.toListDTO(condutorRepository.findAll()));
+        return ResponseEntity.status(HttpStatus.OK).body(CondutorMapper.toListDTO(condutorRepository.findAll()));
     }
 
     public ResponseEntity<CondutorDTO> atualizar (CondutorUpdateDTO condutorDTO){
-        Condutor condutorEncontrado = condutorRepository.findByCpf(condutorDTO.getCpf());
+        Optional<Condutor> condutorEncontrado = condutorRepository.findByCpf(condutorDTO.getCpf());
         if (ObjectUtils.isEmpty(condutorEncontrado)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         Condutor condutor = new Condutor();
-        condutor.setIdCondutor(condutorEncontrado.getIdCondutor());
+        condutor.setIdCondutor(condutorEncontrado.get().getIdCondutor());
         condutor.setNome(condutorDTO.getNome());
         condutor.setCpf(condutorDTO.getCpf());
         condutor.setTelefone(condutorDTO.getTelefone());
         condutor.setEmail(condutorDTO.getEmail());
         condutor.setTipoPagamento(condutorDTO.getTipoPagamento());
         condutor.setEndereco(EnderecoMapper.toEntity(enderecoService.atualizar(condutorDTO.getEnderecoUpdateDTO()).getBody()));
+        condutor.setFormaDePagamento(condutorDTO.getFormaDePagamento());
 
         return ResponseEntity.status(HttpStatus.OK).body(CondutorMapper.toDto(condutorRepository.save(condutor)));
     }

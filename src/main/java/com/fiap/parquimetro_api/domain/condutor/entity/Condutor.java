@@ -1,15 +1,18 @@
 package com.fiap.parquimetro_api.domain.condutor.entity;
 
 import com.fiap.parquimetro_api.domain.endereco.entity.Endereco;
+import com.fiap.parquimetro_api.domain.formadepagamento.model.FormaDePagamento;
 import com.fiap.parquimetro_api.domain.veiculo.entity.Veiculo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.text.Normalizer;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Condutores")
@@ -42,6 +45,9 @@ public class Condutor {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
+
+    @Column(name = "formaDePagamento")
+    private FormaDePagamento formaDePagamento;
 
     @OneToMany(mappedBy="condutor")
     private List<Veiculo> listVeiculos;

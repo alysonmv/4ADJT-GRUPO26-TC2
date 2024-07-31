@@ -7,14 +7,17 @@ import com.fiap.parquimetro_api.domain.veiculo.mapper.VeiculoMapper;
 import com.fiap.parquimetro_api.domain.condutor.repository.CondutorRepository;
 import com.fiap.parquimetro_api.domain.veiculo.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -31,13 +34,13 @@ public class VeiculoService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Condutor condutor = condutorRepository.findByCpf(cpf);
+        Optional<Condutor> condutor = condutorRepository.findByCpf(cpf);
 
         if(ObjectUtils.isEmpty(condutor)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        List<Veiculo> veiculoList = condutor.getListVeiculos();
+        List<Veiculo> veiculoList = condutor.get().getListVeiculos();
 
         if (veiculoList.isEmpty()){
             veiculoList = new ArrayList<>();
@@ -48,14 +51,14 @@ public class VeiculoService {
             }
         }
 
-        condutor.setListVeiculos(veiculoList);
-        condutorRepository.save(condutor);
+        condutor.get().setListVeiculos(veiculoList);
+        condutorRepository.save(condutor.get());
 
         Veiculo veiculoEncontrado = veiculoRepository.findByPlaca(veiculoDTO.getPlaca());
 
         if(veiculoEncontrado == null){
             Veiculo veiculo = new Veiculo();
-            veiculo.setCondutor(condutor);
+            veiculo.setCondutor(condutor.get());
             veiculo.setPlaca(veiculoDTO.getPlaca());
             veiculo.setMarca(veiculoDTO.getMarca());
             veiculo.setModelo(veiculoDTO.getModelo());
@@ -83,17 +86,4 @@ public class VeiculoService {
         return ResponseEntity.status(HttpStatus.OK).body(VeiculoMapper.toListDTO(veiculoRepository.findAll()));
     }
 
-    public ResponseEntity<VeiculoDTO> atualizar (VeiculoDTO veiculoDTO, String cpf) {
-        // receber o cpf do condutor
-        // buscar o veiculo desse condutor referente a placa do request
-        Condutor condutorEncontrado = condutorRepository.findByCpf(cpf);
-
-//        Veiculo veiculo = condutorEncontrado.getListVeiculos().stream().filter(
-//                veiculoEncontrado -> veiculoEncontrado.getPlaca().equals(veiculoDTO.getPlaca())).findFirst().orElse(null);
-
-        //procurar nesta lista o veiculo com a placa do request
-
-
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 }
