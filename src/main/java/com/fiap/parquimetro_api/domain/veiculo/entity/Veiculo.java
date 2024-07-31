@@ -3,12 +3,11 @@ package com.fiap.parquimetro_api.domain.veiculo.entity;
 import com.fiap.parquimetro_api.domain.condutor.entity.Condutor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Veiculos")

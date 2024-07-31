@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fiap.parquimetro_api.domain.endereco.dto.EnderecoUpdateDTO;
 import com.fiap.parquimetro_api.domain.condutor.entity.Condutor;
 import com.fiap.parquimetro_api.domain.endereco.mapper.EnderecoMapper;
+import com.fiap.parquimetro_api.domain.formadepagamento.model.FormaDePagamento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class CondutorUpdateDTO {
     private String email;
     private String telefone;
     private EnderecoUpdateDTO enderecoUpdateDTO;
+    private FormaDePagamento formaDePagamento;
 
     public CondutorUpdateDTO(Condutor condutor){
         this.idCondutor = condutor.getIdCondutor();
@@ -28,6 +30,7 @@ public class CondutorUpdateDTO {
         this.email = condutor.getEmail();
         this.telefone = condutor.getTelefone();
         this.enderecoUpdateDTO = EnderecoMapper.toDTOUpdate(condutor.getEndereco());
+        this.formaDePagamento = condutor.getFormaDePagamento();
     }
 
 }

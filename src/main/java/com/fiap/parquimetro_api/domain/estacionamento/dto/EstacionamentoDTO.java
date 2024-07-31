@@ -2,8 +2,8 @@ package com.fiap.parquimetro_api.domain.estacionamento.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fiap.parquimetro_api.domain.condutor.dto.CondutorDTO;
-import com.fiap.parquimetro_api.domain.formadepagamento.dto.FormaDePagamentoDTO;
 import com.fiap.parquimetro_api.domain.estacionamento.entity.Estacionamento;
+import com.fiap.parquimetro_api.domain.formadepagamento.model.FormaDePagamento;
 import com.fiap.parquimetro_api.domain.veiculo.dto.VeiculoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class EstacionamentoDTO {
     private LocalDateTime inicio;
     private LocalDateTime fim;
     private VeiculoDTO veiculoDTO;
-    private FormaDePagamentoDTO formaDePagamentoDTO;
+    private FormaDePagamento formaDePagamentoDTO;
     private CondutorDTO condutorDTO;
 
     public EstacionamentoDTO(Estacionamento estacionamento) {
@@ -28,7 +28,7 @@ public class EstacionamentoDTO {
         this.inicio = estacionamento.getInicio();
         this.fim = estacionamento.getFim();
         this.veiculoDTO = new VeiculoDTO(estacionamento.getVeiculo());
-        this.formaDePagamentoDTO = new FormaDePagamentoDTO(estacionamento.getFormaDePagamento());
+        this.formaDePagamentoDTO = estacionamento.getFormaDePagamento();
         this.condutorDTO = new CondutorDTO(estacionamento.getCondutor());
     }
 }

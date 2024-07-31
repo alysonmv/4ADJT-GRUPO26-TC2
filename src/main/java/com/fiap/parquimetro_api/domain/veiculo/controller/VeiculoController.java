@@ -3,9 +3,11 @@ package com.fiap.parquimetro_api.domain.veiculo.controller;
 import com.fiap.parquimetro_api.domain.veiculo.dto.VeiculoDTO;
 import com.fiap.parquimetro_api.domain.veiculo.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,4 @@ public class VeiculoController {
         return veiculoService.listar();
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<VeiculoDTO> atualizar (@RequestBody VeiculoDTO veiculoDTO, @RequestParam String cpf){
-        return veiculoService.atualizar(veiculoDTO, cpf);
-    }
 }

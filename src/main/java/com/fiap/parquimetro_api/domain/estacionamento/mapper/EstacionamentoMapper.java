@@ -3,7 +3,7 @@ package com.fiap.parquimetro_api.domain.estacionamento.mapper;
 import com.fiap.parquimetro_api.domain.condutor.mapper.CondutorMapper;
 import com.fiap.parquimetro_api.domain.estacionamento.entity.Estacionamento;
 import com.fiap.parquimetro_api.domain.estacionamento.dto.EstacionamentoDTO;
-import com.fiap.parquimetro_api.domain.formadepagamento.mapper.FormaDePagamentoMapper;
+import com.fiap.parquimetro_api.domain.formadepagamento.model.FormaDePagamento;
 import com.fiap.parquimetro_api.domain.veiculo.mapper.VeiculoMapper;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -31,7 +31,7 @@ public class EstacionamentoMapper {
         estacionamento.setFim(estacionamentoDTO.getFim());
         estacionamento.setCondutor(CondutorMapper.toEntity(estacionamentoDTO.getCondutorDTO()));
         estacionamento.setVeiculo(VeiculoMapper.toEntity(estacionamentoDTO.getVeiculoDTO()));
-        estacionamento.setFormaDePagamento(FormaDePagamentoMapper.toEntity(estacionamentoDTO.getFormaDePagamentoDTO()));
+        estacionamento.setFormaDePagamento(estacionamento.getFormaDePagamento());
         return estacionamento;
     }
 
@@ -40,12 +40,12 @@ public class EstacionamentoMapper {
             return null;
         }
         EstacionamentoDTO estacionamentoDTO = new EstacionamentoDTO();
-        estacionamento.setIdEstacionamento(estacionamento.getIdEstacionamento());
-        estacionamento.setInicio(estacionamento.getInicio());
-        estacionamento.setFim(estacionamento.getFim());
-        estacionamento.setCondutor(estacionamento.getCondutor());
-        estacionamento.setVeiculo(estacionamento.getVeiculo());
-        estacionamento.setFormaDePagamento(estacionamento.getFormaDePagamento());
+        estacionamentoDTO.setIdEstacionamento(estacionamento.getIdEstacionamento());
+        estacionamentoDTO.setInicio(estacionamento.getInicio());
+        estacionamentoDTO.setFim(estacionamento.getFim());
+        estacionamentoDTO.setCondutorDTO(CondutorMapper.toDto(estacionamento.getCondutor()));
+        estacionamentoDTO.setVeiculoDTO(VeiculoMapper.toDTO(estacionamento.getVeiculo()));
+        estacionamentoDTO.setFormaDePagamentoDTO(estacionamento.getFormaDePagamento());
         return estacionamentoDTO;
 
     }
