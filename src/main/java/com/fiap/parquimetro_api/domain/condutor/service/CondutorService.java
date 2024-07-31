@@ -38,14 +38,10 @@ public class CondutorService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Condutor condutor = new Condutor();
-        condutor.setNome(condutorDTO.getNome());
-        condutor.setCpf(condutorDTO.getCpf());
-        condutor.setEmail(condutorDTO.getEmail());
-        condutor.setTelefone(condutorDTO.getTelefone());
+        Condutor condutor = CondutorMapper.toEntity(condutorDTO);
         condutor.setEndereco(EnderecoMapper.toEntity(enderecoService.cadastrar(condutorDTO.getEnderecoDTO())));
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CondutorDTO(condutorRepository.save(condutor)));
+        condutor = condutorRepository.save(condutor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CondutorMapper.toDto(condutor));
     }
 
     public ResponseEntity<CondutorDTO> consultar (String cpf){
@@ -74,6 +70,7 @@ public class CondutorService {
         condutor.setCpf(condutorDTO.getCpf());
         condutor.setTelefone(condutorDTO.getTelefone());
         condutor.setEmail(condutorDTO.getEmail());
+        condutor.setTipoPagamento(condutorDTO.getTipoPagamento());
         condutor.setEndereco(EnderecoMapper.toEntity(enderecoService.atualizar(condutorDTO.getEnderecoUpdateDTO()).getBody()));
 
         return ResponseEntity.status(HttpStatus.OK).body(CondutorMapper.toDto(condutorRepository.save(condutor)));

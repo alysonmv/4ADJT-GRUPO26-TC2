@@ -23,6 +23,7 @@ public class CondutorMapper {
             condutorDTO.setTelefone(condutor.getTelefone());
             condutorDTO.setEmail(condutor.getEmail());
             condutorDTO.setEnderecoDTO(EnderecoMapper.toDTO(condutor.getEndereco()));
+            condutorDTO.setTipoPagamento(condutor.getTipoPagamento());
 
             listDto.add(condutorDTO);
         });
@@ -43,6 +44,7 @@ public class CondutorMapper {
             condutor.setTelefone(condutorDTO.getTelefone());
             condutor.setEmail(condutorDTO.getEmail());
             condutor.setEndereco(EnderecoMapper.toEntity(condutorDTO.getEnderecoDTO()));
+            condutor.setTipoPagamento(condutorDTO.getTipoPagamento());
 
             condutorList.add(condutor);
         });
@@ -61,6 +63,7 @@ public class CondutorMapper {
         condutor.setTelefone(dto.getTelefone());
         condutor.setEmail(dto.getEmail());
         condutor.setEndereco(EnderecoMapper.toEntity(dto.getEnderecoDTO()));
+        condutor.setTipoPagamento(dto.getTipoPagamento());
 
         return condutor;
     }
@@ -76,6 +79,7 @@ public class CondutorMapper {
         condutorDTO.setTelefone(condutor.getTelefone());
         condutorDTO.setEmail(condutor.getEmail());
         condutorDTO.setEnderecoDTO(EnderecoMapper.toDTO(condutor.getEndereco()));
+        condutorDTO.setTipoPagamento(condutor.getTipoPagamento());
 
         return condutorDTO;
     }

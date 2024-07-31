@@ -33,4 +33,8 @@ public class EstacionamentoController {
         estacionamentoService.delete(idEstacionamento);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/recibo/{id}")
+    public ResponseEntity<?> gerarRecibo(@PathVariable Long idEstacionamento) {
+        return estacionamentoService.gerarRecibo(idEstacionamento);
+    }
 }
